@@ -12,39 +12,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/v1")
+@RestController @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api/v1/rooms")
 public class RoomController {
 
     @Autowired
     private RoomRepository roomRepository;
 
-    @RequestMapping("/rooms")
+    @GetMapping
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
 
-    @GetMapping("/rooms/id")
-    public ResponseEntity<Room> getRoomById(@PathVariable(value = "id") long roomId) throws ResourceNotFoundException {
+    @GetMapping("/{id}")
+    public ResponseEntity<Room> getRoomById(@PathVariable Long id) throws ResourceNotFoundException {
         Room room = roomRepository
-                .findById(roomId)
-                .orElseThrow(() -> new ResourceNotFoundException("Room not found:: " + roomId));
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found:: " + id));
 
         return ResponseEntity.ok().body(room);
     }
 
-    @PostMapping("/rooms")
+    @PostMapping
     public Room createRoom(@Valid @RequestBody Room room) {
         return roomRepository.save(room);
     }
 
-    public ResponseEntity<Room> updateRoom(@PathVariable(value = "id") Long roomId,
+    @PutMapping("/{id}")
+    public ResponseEntity<Room> updateRoom(@PathVariable Long id,
                                            @Valid @RequestBody Room roomDetails
     ) throws ResourceNotFoundException {
         Room room = roomRepository
-                .findById(roomId)
-                .orElseThrow(() -> new ResourceNotFoundException("Room not found for this id:: " + roomId));
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found for this id:: " + id));
 
         room.setName(roomDetails.getName());
         room.setDate(roomDetails.getDate());
@@ -55,8 +55,11 @@ public class RoomController {
         return ResponseEntity.ok(updateRoom);
     }
 
-    public Map<String, Boolean> deleteRoom(@PathVariable(value = "id") Long rooId) throws ResourceNotFoundException{
-        Room room = roomRepository.findById(rooId).orElseThrow(()-> new ResourceNotFoundException("Room not found for this id:: " + rooId));
+    @DeleteMapping("/{id}")
+    public Map<String, Boolean> deleteRoom(@PathVariable Long id) throws ResourceNotFoundException{
+        Room room = roomRepository
+                .findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Room not found for this id:: " + id));
         roomRepository.delete(room);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);

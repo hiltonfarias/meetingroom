@@ -1,0 +1,6 @@
+2021-03-11 14:22:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MEETINGROOM" not found; SQL statement:
+select room0_.id as id1_0_, room0_.date as date2_0_, room0_.end_hour as end_hour3_0_, room0_.name as name4_0_, room0_.start_hour as start_ho5_0_ from meetingroom room0_ [42102-200]
+2021-03-11 14:23:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "MEETINGROOM" not found; SQL statement:
+select room0_.id as id1_0_, room0_.date as date2_0_, room0_.end_hour as end_hour3_0_, room0_.name as name4_0_, room0_.start_hour as start_ho5_0_ from meetingroom room0_ [42102-200]
